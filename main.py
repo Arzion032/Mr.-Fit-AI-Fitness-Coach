@@ -1,7 +1,7 @@
 import streamlit as st
 from user_profiles import  create_profile, get_profile, get_notes
 from submit import update_user_profile, add_note, delete_note
-from mr_fit import get_macros
+from mr_fit import advice_mr_fit, big_boi_macro
 
 st.title("Mr. Fit: AI-Powered Fitness Coach")
 
@@ -103,7 +103,8 @@ def macros():
     nutrition.header("Macros")
     
     if nutrition.button("Generate with AI"):
-        result = get_macros(user.get("general"), user.get("goals"))
+        result = big_boi_macro(user.get("general"), user.get("goals"))
+        print(result)
         user["nutrition"] = result
         nutrition.success("AI has generated the results.")
         
@@ -143,14 +144,48 @@ def macros():
                 st.session_state.profile = update_user_profile(
                     user, 
                     "nutrition", 
-                    protien=protein, 
-                    calorie=calories,
+                    calories=calories,
+                    protein=protein, 
                     fat=fat,
                     carbs=carbs,
                     )
                 st.success("Information Updated")
         
+@st.fragment()
+def notes():
+    st.subheader("Notes: ")
+    for i, note in enumerate(st.session_state.notes):
+        cols = st.columns([5 ,1])
+        with cols[0]:
+            st.text(note.get("text"))   
+        with cols[1]:
+            if st.button("Delete", key=i):
+                delete_note(note.get("_id"))
+                st.session_state.notes.pop(i)
+                st.rerun()
     
+    new_note = st.text_input("Add a new note: ")
+    if st.button("Add Note"):
+        if new_note:
+            note = add_note(new_note, st.session_state.profile_id)
+            st.session_state.notes.append(note)
+            st.rerun()
+            
+@st.fragment()
+def ask_mr_fit():
+    
+    st.subheader("Mr. Fit")
+    user_question = st.text_input("Let’s crush your goals!🔥 How can I help?")
+    user = st.session_state.profile
+    name = user["general"]["name"]
+    
+    if st.button("Ask Mr. Fit"):
+        with st.spinner():
+            advice = advice_mr_fit(user_question, user, name)
+            st.write(advice)
+                
+
+# Initialize the state or create one
 def forms():
     
     if "profile" not in st.session_state:
@@ -172,3 +207,5 @@ if __name__ == "__main__":
     profile()
     goals_form()
     macros()
+    notes()
+    ask_mr_fit()

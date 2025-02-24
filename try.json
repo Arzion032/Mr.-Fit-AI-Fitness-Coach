@@ -1,0 +1,22 @@
+{
+    "_id": 1,
+    "general": {
+      "name": "Melvin",
+      "age": 21,
+      "weight": 64,
+      "height": 164,
+      "gender": "Male",
+      "activity_level": "Very Active"
+    },
+    "goals": [
+      "Muscle Gain",
+      "Fat Loss"
+    ],
+    "nutrition": {
+      "calories": 2800,
+      "protein": 192,
+      "fat": 80,
+      "carbs": 328
+    }
+  }
+  
