@@ -203,69 +203,18 @@ def ask_mr_fit():
     
     if st.button("Ask Mr. Fit"):
         with st.spinner("Mr. Fit Working..."):
-            #advice = advice_mr_fit(user_question, user, name)
-            advice = """
-Hi Arzion, Mr. Fit here!🏋️  
+            advice = advice_mr_fit(user_question, user, name)
 
-Alright, my friend! Let's sculpt those **chest, shoulders, and biceps** into works of art while keeping your skin clear and your energy levels high! Since you're already very active and aiming for both **muscle gain and fat loss**, we'll craft a routine that complements your **2800 calorie diet** (*192g protein, 80g fat, and 328g carbs*) and targets your **upper body three times a week**.  
-
-🤔 **Remember, consistency is key!**  
-
----
-
-## **Workout Routine (3 days/week, allow rest days between workouts)**  
-
-### **Day 1: Chest & Triceps**  
-- **Incline Dumbbell Press** – *3 sets of 8-12 reps*. Focus on squeezing your chest at the top.  
-- **Flat Dumbbell Press** – *3 sets of 8-12 reps*. Control the weight down and explode up.  
-- **Decline Dumbbell Press** – *3 sets of 8-12 reps*. Keep those elbows slightly tucked.  
-- **Close-Grip Bench Press** – *3 sets of 10-15 reps*. This will blast your triceps.  
-- **Overhead Dumbbell Extension** – *3 sets of 10-15 reps*. Keep your core tight for stability.  
-- **Cable Pushdowns** – *3 sets of 12-15 reps*. Vary your grip (rope, straight bar) to target different tricep heads.  
-
-### **Day 2: Shoulders & Biceps**  
-- **Overhead Press (Barbell or Dumbbells)** – *3 sets of 8-12 reps*. Focus on controlled movements and full range of motion.  
-- **Lateral Raises** – *3 sets of 12-15 reps*. Slightly bend your elbows and feel the burn in your lateral deltoids.  
-- **Front Raises** – *3 sets of 12-15 reps*. Alternate arms or use both dumbbells simultaneously.  
-- **Bent-Over Reverse Flyes** – *3 sets of 15-20 reps*. Great for rear deltoids and posture.  
-- **Barbell Curls** – *3 sets of 8-12 reps*. Squeeze those biceps at the top!  
-- **Hammer Curls** – *3 sets of 10-15 reps*. Works the brachialis and brachioradialis for thicker arms.  
-- **Concentration Curls** – *3 sets of 12-15 reps*. Focus on the mind-muscle connection.  
-
-### **Day 3: Back & Biceps (Lighter)**  
-- **Pull-ups (or Lat Pulldowns)** – *3 sets of as many reps as possible (AMRAP)*. A fantastic back builder.  
-- **Bent-Over Rows** – *3 sets of 8-12 reps*. Maintain a flat back and pull towards your belly button.  
-- **Seated Cable Rows** – *3 sets of 10-15 reps*. Squeeze your back muscles at the end of each row.  
-- **Face Pulls** – *3 sets of 15-20 reps*. Excellent for rear deltoids and shoulder health.  
-- **Dumbbell Bicep Curls** – *2 sets of 10-12 reps* (*lighter weight than Day 2*).  
-- **Hammer Curls** – *2 sets of 12-15 reps* (*lighter weight than Day 2*).  
-
----
-
-## **Regarding Acne** 🧴  
-- Dairy, high-glycemic foods (*like white bread and sugary drinks*), and processed foods can sometimes be **triggers for acne**.  
-- Since you're focused on **muscle gain and fat loss**, your diet is likely already fairly clean. However, be mindful of these foods.  
-- **Hydration is key** for clear skin, so drink plenty of water!  
-
----
-
-### **Final Thoughts** 🎯  
-Let me know how this feels after a week or two, and we can adjust as needed! **Remember to warm up before each workout and cool down afterward.**  
-
-🔥 Now go crush it, Arzion! **You got this!** 🎉  
-"""
-            # Create a container with custom styling for the advice
-            advice_container = st.container()
             st.markdown("""
-        <style>
-        .bordered-container {
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 10px 0px;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+            <style>
+            .bordered-container {
+                border: 2px solid #ccc;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 10px 0px;
+            }
+            </style>
+            """, unsafe_allow_html=True)
         
         st.markdown(f'<div class="bordered-container">{advice}</div>', unsafe_allow_html=True)
                 
