@@ -114,7 +114,6 @@ def macros():
     
     if nutrition.button("Mr. Fit's Macro Suggestion⚡"):
         result = big_boi_macro(user.get("general"), user.get("goals"))
-        print(result)
         user["nutrition"] = result
         nutrition.success("AI has generated the results.")
         
@@ -154,7 +153,7 @@ def macros():
                 )
         
         if st.form_submit_button("Save Macros"):
-            with st.spinner(): 
+            with st.spinner("Let Mr. Fit Cook🔥"): 
                 st.session_state.profile = update_user_profile(
                     user, 
                     "nutrition", 
