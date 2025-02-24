@@ -16,10 +16,11 @@ Mr. Fit is an AI-driven fitness coaching application designed to provide persona
 
 ## Tech Stack
 
-- **LLM:** Gemini AI
-- **Vector Database:** AstraDB
-- **Embeddings:** OpenAI ADA-002 & NVIDIA
-- **Frontend:** Streamlit
+- **Language:** Python  
+- **LLM:** Gemini AI  
+- **Vector Database:** AstraDB  
+- **Embeddings:** NVIDIA NV-Embed-QA  
+- **Frontend:** Streamlit  
 - **Orchestration:** Langflow
 
 ## How It Works
