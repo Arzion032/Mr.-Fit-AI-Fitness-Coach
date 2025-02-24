@@ -3,7 +3,13 @@ from user_profiles import  create_profile, get_profile, get_notes
 from submit import update_user_profile, add_note, delete_note
 from mr_fit import advice_mr_fit, big_boi_macro
 
-st.title("Mr. Fit: AI-Powered Fitness Coach")
+st.set_page_config(
+        page_title="Mr. Fit",
+        page_icon="💪",
+        layout="wide",
+        initial_sidebar_state="auto"
+    )
+
 
 @st.fragment()
 def profile():
@@ -39,9 +45,14 @@ def profile():
             value=float(user["general"]["height"])
             )
         
-        genders = ["Male", "Female", "Other"]
-        gender = st.radio("Gender", genders, genders.index(user["general"].get("gender", "Male")))
-        
+        genders = ("Male", "Female", "Other")
+        gender = st.selectbox(
+            "Gender:", 
+            genders, 
+            index=genders.index(
+                user["general"].get("gender", "Moderately Oter")
+                )
+            )
         activities =  (
             "Sedentary",
             "Lightly Active",
@@ -57,7 +68,7 @@ def profile():
                 )
             )
         
-        submit_profile = st.form_submit_button("Save")
+        submit_profile = st.form_submit_button("Save Profile Info")
         
         if submit_profile:
             if all([name, age, weight, height, gender, activity_level]):
@@ -87,7 +98,7 @@ def goals_form():
             default=user.get('goals',['Stay Active'])
         )
 
-        goals_submit = st.form_submit_button('Save')
+        goals_submit = st.form_submit_button('Update Goals')
         if goals_submit:
             if goals:
                 with st.spinner():
@@ -102,44 +113,48 @@ def macros():
     nutrition = st.container(border=True)
     nutrition.header("Macros")
     
-    if nutrition.button("Generate with AI"):
+    if nutrition.button("Mr. Fit's Macro Suggestion⚡"):
         result = big_boi_macro(user.get("general"), user.get("goals"))
         print(result)
         user["nutrition"] = result
         nutrition.success("AI has generated the results.")
         
     with nutrition.form("nutrition_form", border=False): 
-        col1, col2, col3, col4 = st.columns(4)
+        
+        col1, col2 = st.columns(2)
+        col3, col4 = st.columns(2)
+        
         with col1:
             calories = st.number_input(
-                "Calories", 
+                "Calories:", 
                 min_value=0, 
                 step=1, 
                 value=user["nutrition"].get("calories", 0),
                 )
+            
         with col2:
             protein = st.number_input(
-                "protein", 
+                "Proteins:", 
                 min_value=0, 
                 step=1, 
                 value=user["nutrition"].get("protein", 0),
                 )
         with col3:
             fat = st.number_input(
-                "fat", 
+                "Fats:", 
                 min_value=0, 
                 step=1, 
                 value=user["nutrition"].get("fat", 0),
                 )
-        with col4:
+        with col4:       
             carbs = st.number_input(
-                "carbs", 
+                "Carbohydrates:",  
                 min_value=0, 
                 step=1, 
                 value=user["nutrition"].get("carbs", 0),
                 )
         
-        if st.form_submit_button("Save"):
+        if st.form_submit_button("Save Macros"):
             with st.spinner(): 
                 st.session_state.profile = update_user_profile(
                     user, 
@@ -153,19 +168,25 @@ def macros():
         
 @st.fragment()
 def notes():
-    st.subheader("Notes: ")
+    note_section = st.container(border=True)
+    note_section.subheader("Notes:")
+
+    # Iterate through saved notes
     for i, note in enumerate(st.session_state.notes):
-        cols = st.columns([5 ,1])
-        with cols[0]:
-            st.text(note.get("text"))   
-        with cols[1]:
-            if st.button("Delete", key=i):
-                delete_note(note.get("_id"))
-                st.session_state.notes.pop(i)
-                st.rerun()
+        with note_section.container(border=True):  # Ensure each note is in its own box
+            cols = st.columns([19,1])  # Layout for text and delete button
+            
+            with cols[0]:
+                st.text(note.get("text"))
+            
+            with cols[1]:
+                if st.button("Delete", key=f"delete_{i}"):  # Unique keys prevent button conflicts
+                    delete_note(note.get("_id"))
+                    st.session_state.notes.pop(i)
+                    st.rerun()
     
-    new_note = st.text_input("Add a new note: ")
-    if st.button("Add Note"):
+    new_note = note_section.text_input("Add a new note: ")
+    if note_section.button("Add Note"):
         if new_note:
             note = add_note(new_note, st.session_state.profile_id)
             st.session_state.notes.append(note)
@@ -174,15 +195,79 @@ def notes():
 @st.fragment()
 def ask_mr_fit():
     
-    st.subheader("Mr. Fit")
-    user_question = st.text_input("Let’s crush your goals!🔥 How can I help?")
+    st.subheader("Let’s crush your goals!🚀")
+    user_question = st.text_input("How can I help?", placeholder="Ask anyting...")
+    
     user = st.session_state.profile
     name = user["general"]["name"]
     
     if st.button("Ask Mr. Fit"):
-        with st.spinner():
-            advice = advice_mr_fit(user_question, user, name)
-            st.write(advice)
+        with st.spinner("Mr. Fit Working..."):
+            #advice = advice_mr_fit(user_question, user, name)
+            advice = """
+Hi Arzion, Mr. Fit here!🏋️  
+
+Alright, my friend! Let's sculpt those **chest, shoulders, and biceps** into works of art while keeping your skin clear and your energy levels high! Since you're already very active and aiming for both **muscle gain and fat loss**, we'll craft a routine that complements your **2800 calorie diet** (*192g protein, 80g fat, and 328g carbs*) and targets your **upper body three times a week**.  
+
+🤔 **Remember, consistency is key!**  
+
+---
+
+## **Workout Routine (3 days/week, allow rest days between workouts)**  
+
+### **Day 1: Chest & Triceps**  
+- **Incline Dumbbell Press** – *3 sets of 8-12 reps*. Focus on squeezing your chest at the top.  
+- **Flat Dumbbell Press** – *3 sets of 8-12 reps*. Control the weight down and explode up.  
+- **Decline Dumbbell Press** – *3 sets of 8-12 reps*. Keep those elbows slightly tucked.  
+- **Close-Grip Bench Press** – *3 sets of 10-15 reps*. This will blast your triceps.  
+- **Overhead Dumbbell Extension** – *3 sets of 10-15 reps*. Keep your core tight for stability.  
+- **Cable Pushdowns** – *3 sets of 12-15 reps*. Vary your grip (rope, straight bar) to target different tricep heads.  
+
+### **Day 2: Shoulders & Biceps**  
+- **Overhead Press (Barbell or Dumbbells)** – *3 sets of 8-12 reps*. Focus on controlled movements and full range of motion.  
+- **Lateral Raises** – *3 sets of 12-15 reps*. Slightly bend your elbows and feel the burn in your lateral deltoids.  
+- **Front Raises** – *3 sets of 12-15 reps*. Alternate arms or use both dumbbells simultaneously.  
+- **Bent-Over Reverse Flyes** – *3 sets of 15-20 reps*. Great for rear deltoids and posture.  
+- **Barbell Curls** – *3 sets of 8-12 reps*. Squeeze those biceps at the top!  
+- **Hammer Curls** – *3 sets of 10-15 reps*. Works the brachialis and brachioradialis for thicker arms.  
+- **Concentration Curls** – *3 sets of 12-15 reps*. Focus on the mind-muscle connection.  
+
+### **Day 3: Back & Biceps (Lighter)**  
+- **Pull-ups (or Lat Pulldowns)** – *3 sets of as many reps as possible (AMRAP)*. A fantastic back builder.  
+- **Bent-Over Rows** – *3 sets of 8-12 reps*. Maintain a flat back and pull towards your belly button.  
+- **Seated Cable Rows** – *3 sets of 10-15 reps*. Squeeze your back muscles at the end of each row.  
+- **Face Pulls** – *3 sets of 15-20 reps*. Excellent for rear deltoids and shoulder health.  
+- **Dumbbell Bicep Curls** – *2 sets of 10-12 reps* (*lighter weight than Day 2*).  
+- **Hammer Curls** – *2 sets of 12-15 reps* (*lighter weight than Day 2*).  
+
+---
+
+## **Regarding Acne** 🧴  
+- Dairy, high-glycemic foods (*like white bread and sugary drinks*), and processed foods can sometimes be **triggers for acne**.  
+- Since you're focused on **muscle gain and fat loss**, your diet is likely already fairly clean. However, be mindful of these foods.  
+- **Hydration is key** for clear skin, so drink plenty of water!  
+
+---
+
+### **Final Thoughts** 🎯  
+Let me know how this feels after a week or two, and we can adjust as needed! **Remember to warm up before each workout and cool down afterward.**  
+
+🔥 Now go crush it, Arzion! **You got this!** 🎉  
+"""
+            # Create a container with custom styling for the advice
+            advice_container = st.container()
+            st.markdown("""
+        <style>
+        .bordered-container {
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        st.markdown(f'<div class="bordered-container">{advice}</div>', unsafe_allow_html=True)
                 
 
 # Initialize the state or create one
@@ -203,9 +288,34 @@ def forms():
 
 
 if __name__ == "__main__":
+    st.markdown("""
+    <h1 style='text-align: center;'>Mr. Fit: AI-Powered Fitness Coach💪🔥</h1>
+    <style>
+        div[data-testid="stHorizontalBlock"] {
+            width: 100% !important;
+        }
+        div[data-testid="stTabs"] button {
+            flex-grow: 1;
+            text-align: center;
+        }
+        button[data-baseweb="tab"] {
+        font-size: 32px !important;
+        font-weight: bold !important;
+}
+      
+    </style>
+""", unsafe_allow_html=True)
+    tab1, tab2 = st.tabs(["Ask Mr. Fit", "Profile"])
     forms()
-    profile()
-    goals_form()
-    macros()
-    notes()
-    ask_mr_fit()
+    with tab1:
+        ask_mr_fit()
+    with tab2:
+        prof,macro = st.columns([2,1])
+        with prof:
+            profile()
+        with macro:
+            macros()
+            st.write("")
+            st.write("")
+            goals_form()
+        notes()
