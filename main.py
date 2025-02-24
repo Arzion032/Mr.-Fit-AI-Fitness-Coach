@@ -4,11 +4,30 @@ from submit import update_user_profile, add_note, delete_note
 from mr_fit import advice_mr_fit, big_boi_macro
 
 st.set_page_config(
-        page_title="Mr. Fit",
-        page_icon="💪",
-        layout="wide",
-        initial_sidebar_state="auto"
-    )
+            page_title="Mr. Fit",
+            page_icon="💪",
+            layout="wide",
+            initial_sidebar_state="auto"
+        )
+
+def setup_st():
+    st.markdown("""
+    <h1 style='text-align: center;'>Mr. Fit: AI-Powered Fitness Coach💪🔥</h1>
+    <style>
+        div[data-testid="stHorizontalBlock"] {
+            width: 100% !important;
+        }
+        div[data-testid="stTabs"] button {
+            flex-grow: 1;
+            text-align: center;
+        }
+        button[data-baseweb="tab"] {
+        font-size: 32px !important;
+        font-weight: bold !important;
+        }
+            
+    </style>
+    """, unsafe_allow_html=True)
 
 @st.fragment()
 def profile():
@@ -49,7 +68,7 @@ def profile():
             "Gender:", 
             genders, 
             index=genders.index(
-                user["general"].get("gender", "Moderately Oter")
+                user["general"].get("gender", "Male")
                 )
             )
         activities =  (
@@ -71,7 +90,7 @@ def profile():
         
         if submit_profile:
             if all([name, age, weight, height, gender, activity_level]):
-                with st.spinner():
+                with st.spinner("Let Mr. Fit Cook🔥"):
                     st.session_state.profile = update_user_profile(
                         user,
                         "general", 
@@ -82,7 +101,8 @@ def profile():
                         gender=gender, 
                         activity_level=activity_level
                         )
-                    st.success('Profile Saved')
+                    st.toast("##### Profile Saved! ", icon='💪')
+
             else: 
                 st.warning("Please fill in all of the data")
                 
@@ -100,9 +120,10 @@ def goals_form():
         goals_submit = st.form_submit_button('Update Goals')
         if goals_submit:
             if goals:
-                with st.spinner():
+                with st.spinner("Let Mr. Fit Cook🔥"):
                     st.session_state.profile = update_user_profile(user, "goals", goals=goals)
-                    st.success('Goals saved successfully')
+                    st.toast("##### **Goals Saved!**", icon="📝")
+
             else: 
                 st.warning("Please select at least one goal.")
                 
@@ -111,8 +132,9 @@ def macros():
     user = st.session_state.profile
     nutrition = st.container(border=True)
     nutrition.header("Macros")
+    nutri_button =nutrition.button("Mr. Fit's Macro Suggestion⚡")
     
-    if nutrition.button("Mr. Fit's Macro Suggestion⚡"):
+    if nutri_button:
         result = big_boi_macro(user.get("general"), user.get("goals"))
         user["nutrition"] = result
         nutrition.success("AI has generated the results.")
@@ -127,32 +149,32 @@ def macros():
                 "Calories:", 
                 min_value=0, 
                 step=1, 
-                value=user["nutrition"].get("calories", 0),
+                value=int((user["nutrition"].get("calories", 0))),
                 )
             
         with col2:
             protein = st.number_input(
-                "Proteins:", 
+                "Proteins(g):", 
                 min_value=0, 
                 step=1, 
-                value=user["nutrition"].get("protein", 0),
+                value=int(user["nutrition"].get("protein", 0)),
                 )
         with col3:
             fat = st.number_input(
                 "Fats:", 
                 min_value=0, 
                 step=1, 
-                value=user["nutrition"].get("fat", 0),
+                value=int(user["nutrition"].get("fat", 0)),
                 )
         with col4:       
             carbs = st.number_input(
                 "Carbohydrates:",  
                 min_value=0, 
                 step=1, 
-                value=user["nutrition"].get("carbs", 0),
+                value=int(user["nutrition"].get("carbs", 0)),
                 )
-        
-        if st.form_submit_button("Save Macros"):
+        save_macro_button = st.form_submit_button("Save Macros")
+        if save_macro_button:
             with st.spinner("Let Mr. Fit Cook🔥"): 
                 st.session_state.profile = update_user_profile(
                     user, 
@@ -162,7 +184,8 @@ def macros():
                     fat=fat,
                     carbs=carbs,
                     )
-                st.success("Information Updated")
+                st.toast("##### **Macros Updated!**", icon='🍗')
+
         
 @st.fragment()
 def notes():
@@ -200,7 +223,7 @@ def ask_mr_fit():
     name = user["general"]["name"]
     
     if st.button("Ask Mr. Fit"):
-        with st.spinner("Mr. Fit Working..."):
+        with st.spinner("Let Mr. Fit Cook🔥"):
             advice = advice_mr_fit(user_question, user, name)
 
             st.markdown("""
@@ -235,23 +258,7 @@ def forms():
 
 
 if __name__ == "__main__":
-    st.markdown("""
-    <h1 style='text-align: center;'>Mr. Fit: AI-Powered Fitness Coach💪🔥</h1>
-    <style>
-        div[data-testid="stHorizontalBlock"] {
-            width: 100% !important;
-        }
-        div[data-testid="stTabs"] button {
-            flex-grow: 1;
-            text-align: center;
-        }
-        button[data-baseweb="tab"] {
-        font-size: 32px !important;
-        font-weight: bold !important;
-}
-      
-    </style>
-""", unsafe_allow_html=True)
+    setup_st()
     tab1, tab2 = st.tabs(["Ask Mr. Fit", "Profile"])
     forms()
     with tab1:
