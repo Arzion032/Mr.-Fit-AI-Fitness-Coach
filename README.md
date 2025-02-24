@@ -9,7 +9,7 @@ Mr. Fit is an AI-driven fitness coaching application designed to provide persona
 
 ## Features
 
-- **Personalized Profiles** – Users can create and update their profile with age, weight, height, activity level, and fitness goals.
+- **Personalized Profiles** – Users can create and update their profile with age, weight, height, activity level, notes and fitness goals.
 - **AI-Driven Advice** – "Ask Mr. Fit" feature provides tailored fitness advice using an advanced LLM.
 - **Macro Calculation** – AI-generated calorie, protein, fat, and carb intake suggestions based on user goals.
 - **Vector Database** – Stores all user-related profiles, goals, and notes for efficient retrieval and semantic search.
@@ -41,5 +41,5 @@ Feel free to fork the repo, create a new branch, and submit a pull request for a
 
 ---
 
-**Made with ❤️ for fitness enthusiasts.**
+**Made with 💪  for fitness enthusiasts.**
 
