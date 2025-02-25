@@ -1,7 +1,7 @@
-# Mr. Fit: AI-Powered Fitness Coach
+[# Mr. Fit: AI-Powered Fitness Coach](https://mr-fit-ai-coach.streamlit.app)
 ![Ask Mr. Fit UI](ui_samp/Ask%20Mr%20Fit.png)
 ![Ask Mr. Fit UI2](ui_samp/Profile%20Section.png)
-[Access Mr. Fit AI Coach](https://mr-fit-ai-coach.streamlit.app/)
+[👉 Try it here](https://mr-fit-ai-coach.streamlit.app) 
 
 ## Overview
 
