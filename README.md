@@ -1,4 +1,4 @@
-[# Mr. Fit: AI-Powered Fitness Coach](https://mr-fit-ai-coach.streamlit.app)
+# Mr. Fit: AI-Powered Fitness Coach
 ![Ask Mr. Fit UI](ui_samp/Ask%20Mr%20Fit.png)
 ![Ask Mr. Fit UI2](ui_samp/Profile%20Section.png)
 [👉 Try it here](https://mr-fit-ai-coach.streamlit.app) 
